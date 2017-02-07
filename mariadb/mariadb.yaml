@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mariadb
+  namespace: development
+  labels:
+    app: mariadb
+    role: database
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      labels:
+        app: mariadb
+        role: database
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:10.1.21
+          ports:
+            - containerPort: 3306
+              protocol: TCP
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: development
+                  key: mariadb-root
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb
+  namespace: development
+  labels:
+    role: database
+spec:
+  ports:
+    - port: 3306
+      protocol: TCP
+      name: sql
+  selector:
+    app: mariadb
