@@ -27,6 +27,14 @@ spec:
                 secretKeyRef:
                   name: development
                   key: mariadb-root
+          volumeMounts:
+            - name: mariadb-init
+              mountPath: /docker-entrypoint-initdb.d/
+              readOnly: true
+      volumes:
+        - name: mariadb-init
+          secret:
+            secretName: mariadb-init
 ---
 apiVersion: v1
 kind: Service
