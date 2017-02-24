@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: testor-server
-          image: lrhstsa/testor-server:develop-34a44e289b73aab25298d752c253b2ac1881d3cb
+          image: lrhstsa/testor-server:develop-b35ad68648ef7be61e318333b60ec63e0f309719
           env:
             - name: MYSQL_HOST
               valueFrom:
@@ -54,6 +54,11 @@ spec:
                 secretKeyRef:
                   name: testor-server
                   key: mail-password
+            - name: MAIL_ADDRESS
+              valueFrom:
+                secretKeyRef:
+                  name: testor-server
+                  key: mail-host
           ports:
             - containerPort: 3000
               protocol: TCP
